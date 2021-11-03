@@ -97,18 +97,16 @@ def extract(args):
 	for dir in dir_list:
 		if not os.path.exists(dir):
 			os.makedirs(dir)
-
 	for fname in files:
 		if fname.split('/')[-1] == 'vox1_dev_wav.zip':
-			save_path = vox1_train
+			savePath = vox1_train
 		elif fname.split('/')[-1] == 'vox1_test_wav.zip':
-			save_path = vox1_test
-		elif fname.split('/')[-1] == 'vox2_dev_acc.zip':
-			save_path = args.save_path
-
+			savePath = vox1_test
+		elif fname.split('/')[-1] == 'vox2_dev_aac.zip':
+			savePath = args.save_path
 		print('Extracting %s'%fname)
 		zf = ZipFile(fname, 'r')
-		zf.extractall(save_path)
+		zf.extractall(savePath)
 		zf.close()
 
 
@@ -147,7 +145,7 @@ if __name__ == "__main__":
 		download(args,fileparts)
 
 	if args.extract:
-		concatenate(args, files)
+	#	concatenate(args, files)
 		extract(args)
 		#######################<<Here, files are extracted from zip file.
 		out = subprocess.call('mv %s/dev/aac/* %s/aac/ && rm -r %s/dev' %(args.save_path,args.save_path,args.save_path), shell=True)
