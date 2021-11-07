@@ -116,9 +116,8 @@ def extract(args):
 def convert(args):
 
 	folders = glob.glob('%s/voxceleb2/dev/wav/*/*/'%args.save_path)
-	files 	= glob.glob('%s/voxceleb2/dev/wav/*/*/*.m4a'%args.save_path)
+	files 	= glob.glob('%s/voxceleb2/dev/wav/aac/*/*/*.m4a'%args.save_path)
 	files.sort()
-
 	print('Converting files from AAC to WAV')
 	for fname in tqdm(files):
 		outfile = fname.replace('.m4a','.wav')
@@ -145,8 +144,14 @@ if __name__ == "__main__":
 		download(args,fileparts)
 
 	if args.extract:
-	#	concatenate(args, files)
+		concatenate(args, files)
 		extract(args)
+		ph = "%s/aac/"%args.save_path
+		if not os.path.exists(ph):
+			os.makedirs(ph)
+		ph = "%s/voxceleb2/dev/wav"%args.save_path
+		if not os.path.exists(ph):
+			os.makedirs(ph)
 		#######################<<Here, files are extracted from zip file.
 		out = subprocess.call('mv %s/dev/aac/* %s/aac/ && rm -r %s/dev' %(args.save_path,args.save_path,args.save_path), shell=True)
 		out = subprocess.call('mv %s/aac %s/voxceleb2/dev/wav' %(args.save_path,args.save_path), shell=True)
